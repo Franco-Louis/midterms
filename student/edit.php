@@ -95,7 +95,7 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            width: 100%;
+            width: 150px;  /* Set a fixed width for the button */
         }
 
         .submit-btn:hover {
@@ -159,7 +159,6 @@
         <a href="register.php">Register Student</a> / <span class="current">Edit Student</span>
     </div>
 
-   
     <div class="dashboard-container">
         <h3>Edit Student</h3>
 
@@ -173,6 +172,7 @@
             <label for="last_name">Last Name</label>
             <input type="text" id="last_name" name="last_name" required>
 
+            <!-- Button placed below the last name input, aligned left -->
             <button type="submit" class="submit-btn">Update Student</button>
         </form>
     </div>

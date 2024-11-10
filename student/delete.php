@@ -12,30 +12,27 @@
             padding: 0;
         }
 
-
-         /* Styling for the h1 title "Edit Student" */
-         #page-title {
+        #page-title {
             font-family: 'Arial', sans-serif;
-            font-weight: 100; /* Thin font weight */
-            font-size: 32px;  /* Larger font size */
+            font-weight: 100;
+            font-size: 32px;
             text-align: left;
             color: #333;
             margin: 50px auto;
-            padding-left: 20px; /* Add some space from the left */
-            max-width: 1000px; /* Ensure it aligns with the breadcrumb */
+            padding-left: 20px;
+            max-width: 1000px;
         }
 
-        /* Centered Breadcrumb with lighter gray background */
         .breadcrumb {
-            background-color: #e8e9eb;  /* Lighter gray */
+            background-color: #e8e9eb;
             padding: 10px;
             border-radius: 4px;
             font-size: 14px;
             text-align: left;
-            width: 100%;  /* Full width */
-            max-width: 1000px;  /* Make it slightly wider than the form */
-            margin: 50px auto 20px;  /* Add top margin for space, center it, and add bottom margin */
-            box-sizing: border-box; /* Include padding in the width calculation */
+            width: 100%;
+            max-width: 1000px;
+            margin: 50px auto 20px;
+            box-sizing: border-box;
         }
 
         .breadcrumb a {
@@ -48,7 +45,7 @@
         }
 
         .breadcrumb .current {
-            color: #999; /* Light gray color for 'Delete Student' */
+            color: #999;
         }
 
         .dashboard-container {
@@ -66,7 +63,7 @@
             color: #333;
             font-size: 24px;
             margin-top: 0;
-            font-weight: 300; /* Thinner font weight */
+            font-weight: 300;
         }
 
         .submit-btn, .cancel-btn {
@@ -87,16 +84,16 @@
         }
 
         .cancel-btn {
-            background-color: #6c757d; /* Set to gray */
+            background-color: #6c757d;
         }
 
         .cancel-btn:hover {
-            background-color: #5a6268; /* Darker gray on hover */
+            background-color: #5a6268;
         }
 
         ul {
             list-style-type: disc;
-            padding-left: 40px; /* Increase padding to mimic tab indent */
+            padding-left: 40px;
             margin: 20px 0;
         }
 
@@ -111,7 +108,7 @@
 
         .actions {
             display: flex;
-            justify-content: flex-start; /* Align buttons to the left */
+            justify-content: flex-start;
             gap: 15px;
             margin-top: 20px;
         }
@@ -119,10 +116,8 @@
 </head>
 <body>
 
-    <!-- "Delete Student" Title (h1) placed above breadcrumb -->
     <h2 id="page-title">Delete a Student</h2>
 
-    <!-- Breadcrumb placed above the form, centered and slightly wider -->
     <div id="breadcrumb" class="breadcrumb">
         <a href="../dashboard.php">Dashboard</a> / <a href="register.php">Register Student</a> / <span class="current">Delete Student</span>
     </div>
@@ -169,15 +164,16 @@
                 // Save the updated list back to localStorage
                 localStorage.setItem('students', JSON.stringify(students));
 
-                // Redirect back to the register page
-                window.location.href = 'register.php';
+                // Redirect to the register page after deletion
+                // Using replaceState to avoid adding delete.php to the history stack
+                window.history.replaceState(null, '', 'register.php'); // Replaces the current history state to register.php
+                window.location.href = 'register.php'; // Redirect to register.php
             });
         } else {
-            // If invalid or no student found, redirect to the register page
+            // If no student or an invalid student is found, redirect to register.php
             window.location.href = 'register.php';
         }
     </script>
 
 </body>
 </html>
-
