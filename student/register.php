@@ -10,13 +10,89 @@
             background-color: #f4f4f9;
             margin: 0;
             padding: 0;
+            position: relative;  /* Make the body relative to control absolute elements */
+        }
+
+        /* Custom alert message styling */
+        .alert-message {
+            padding: 15px;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 20px auto;
+            text-align: left;
+            width: 100%;
+            max-width: 870px; /* Constrain the width to match the breadcrumb */
+            position: relative; /* Ensures alert stays at the top */
+            z-index: 2; /* Ensure it appears above the breadcrumb */
+        }
+
+        .alert-message ul {
+            font-weight: lighter; /* Make the text in the <ul><li> thinner */
+        }
+
+        .alert-message li {
+            font-weight: lighter; /* Make the text in each <li> thinner */
+        }
+
+        /* Close "X" in top-right corner */
+        .alert-message .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #721c24;
+            cursor: pointer;
+        }
+
+        .alert-message .close-btn:hover {
+            color: #f1a2a8;
+        }
+
+        /* Styling for the h1 title "Register a New Student" */
+        #page-title {
+            font-family: 'Arial', sans-serif;
+            font-weight: 100; /* Thin font weight */
+            font-size: 32px;  /* Larger font size */
+            text-align: left;
+            color: #333;
+            margin: 20px auto;
+            padding-left: 20px; /* Add some space from the left */
+            max-width: 1000px; /* Ensure it aligns with the breadcrumb */
+        }
+
+        /* Styling for the breadcrumb with rectangle background on the left */
+        .breadcrumb {
+            background-color: #e8e9eb;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 14px;
+            max-width: 1000px;
+            margin: 10px auto 15px;  /* Reduced top margin and bottom margin to bring closer */
+            width: 100%;  /* Ensures breadcrumb stretches across */
+            text-align: left;  /* Align breadcrumb to the left */
+            padding-left: 20px; /* Add space from the left side */
+            position: relative; /* Ensures breadcrumb positioning is in context */
+            z-index: 1; /* Below the alert message */
+        }
+
+        .breadcrumb a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
         }
 
         /* Styling for the dashboard container */
         .dashboard-container {
             width: 100%;
             max-width: 900px;
-            margin: 50px auto;
+            margin: 0 auto;  /* Reduced margin to pull the container up */
             padding: 30px;
             background-color: white;
             border-radius: 8px;
@@ -28,23 +104,6 @@
             color: #333;
             font-size: 24px;
             margin-top: 0;
-        }
-
-        .breadcrumb {
-            background-color: #f1f1f1;
-            padding: 10px;
-            border-radius: 4px;
-            margin-bottom: 20px;
-            font-size: 14px;
-        }
-
-        .breadcrumb a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .breadcrumb a:hover {
-            text-decoration: underline;
         }
 
         form {
@@ -122,60 +181,23 @@
             border-radius: 4px;
             cursor: pointer;
         }
-
-        /* Custom alert message styling */
-        .alert-message {
-            padding: 15px;
-            background-color: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
-            border-radius: 5px;
-            font-weight: bold;
-            margin: 20px auto;
-            text-align: left;
-            position: relative;
-            top: 0;
-            max-width: 900px; /* Same width as the dashboard */
-            width: 100%; /* Ensure it doesn't exceed the dashboard width */
-        }
-
-        .alert-message ul {
-            font-weight: lighter; /* Make the text in the <ul><li> thinner */
-        }
-
-        .alert-message li {
-            font-weight: lighter; /* Make the text in each <li> thinner */
-        }
-
-        /* Close "X" in top-right corner */
-        .alert-message .close-btn {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            font-size: 20px;
-            font-weight: bold;
-            color: #721c24;
-            cursor: pointer;
-        }
-
-        .alert-message .close-btn:hover {
-            color: #f1a2a8;
-        }
-
     </style>
 </head>
 <body>
 
-    <!-- Alert Container for Error Messages -->
+    <!-- Alert Container for Error Messages, placed above the breadcrumb -->
     <div id="alert-container"></div>
 
-    <div class="dashboard-container" id="dashboard-container">
-        <!-- Breadcrumb -->
-        <div id="breadcrumb" class="breadcrumb">
-            <a href="../dashboard.php">Dashboard</a> / Register Student
-        </div>
+    <!-- "Register a New Student" Title (h1) placed above breadcrumb -->
+    <h2 id="page-title">Register a New Student</h2>
 
-        <h3 id="form-title">Register a New Student</h3>
+    <!-- Breadcrumb placed outside dashboard, left-aligned within the rectangle -->
+    <div class="breadcrumb">
+        <a href="../dashboard.php">Dashboard</a> / Register Student
+    </div>
+
+    <div class="dashboard-container" id="dashboard-container">
+        
 
         <!-- Registration Form -->
         <form id="register-form">
