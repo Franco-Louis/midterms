@@ -1,16 +1,3 @@
-<?php
-session_start();  // Start the session to access session data
-
-// Check if user is logged in (session variable is set)
-if (!isset($_SESSION['user_email'])) {
-    // If not logged in, redirect to login page
-    header("Location: login.php");
-    exit();  // Make sure no further code is executed
-}
-
-$user_email = $_SESSION['user_email'];  // Get the logged-in user's email
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -133,27 +120,19 @@ $user_email = $_SESSION['user_email'];  // Get the logged-in user's email
             border-radius: 4px;
             cursor: pointer;
         }
-
-        .attach-btn {
-            background-color: #ffcc00;
-            color: white;
-            padding: 5px 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
     </style>
 </head>
 <body>
 
     <div class="dashboard-container">
-        <div class="breadcrumb">
-            <a href="dashboard.php">Dashboard</a> / Register Student
+        <!-- Breadcrumb -->
+        <div id="breadcrumb" class="breadcrumb">
+            <a href="#">Register Student</a>
         </div>
 
-        <h3>Register a New Student</h3>
+        <h3 id="form-title">Register a New Student</h3>
 
-        <!-- Student Registration Form -->
+        <!-- Registration Form -->
         <form id="registration-form">
             <label for="student_id">Student ID</label>
             <input type="text" id="student_id" name="student_id" placeholder="Enter Student ID" required>
@@ -185,42 +164,29 @@ $user_email = $_SESSION['user_email'];  // Get the logged-in user's email
     </div>
 
     <script>
-        // Function to handle the form submission
+        // Handle form submission
         document.getElementById('registration-form').addEventListener('submit', function(event) {
-            event.preventDefault();  // Prevent form from submitting normally
+            event.preventDefault();
 
             const studentId = document.getElementById('student_id').value;
             const firstName = document.getElementById('first_name').value;
             const lastName = document.getElementById('last_name').value;
 
-            // Create a student object
             const student = { studentId, firstName, lastName };
-
-            // Get the existing students from localStorage or create an empty array if none exists
             let students = JSON.parse(localStorage.getItem('students')) || [];
 
-            // Add the new student to the array
             students.push(student);
-
-            // Save the updated students array back to localStorage
             localStorage.setItem('students', JSON.stringify(students));
-
-            // Clear the form inputs
-            document.getElementById('student_id').value = '';
-            document.getElementById('first_name').value = '';
-            document.getElementById('last_name').value = '';
-
-            // Update the student list table
+            clearForm();
             displayStudents();
         });
 
-        // Function to display the list of students
+        // Display students
         function displayStudents() {
             const students = JSON.parse(localStorage.getItem('students')) || [];
             const studentTableBody = document.querySelector('#student-table tbody');
-            studentTableBody.innerHTML = '';  // Clear the existing rows
+            studentTableBody.innerHTML = '';
 
-            // Loop through the students and add rows to the table
             students.forEach((student, index) => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
@@ -228,42 +194,28 @@ $user_email = $_SESSION['user_email'];  // Get the logged-in user's email
                     <td>${student.firstName}</td>
                     <td>${student.lastName}</td>
                     <td class="action-buttons">
-                        <button class="edit-btn" onclick="editStudent(${index})">Edit</button>
+                        <!-- Redirect to edit.php with student index -->
+                        <a href="edit.php?edit=${index}" class="edit-btn">Edit</a>
                         <button class="delete-btn" onclick="deleteStudent(${index})">Delete</button>
-                        <button class="attach-btn" onclick="attachSubject(${index})">Attach Subject</button>
                     </td>
                 `;
                 studentTableBody.appendChild(row);
             });
         }
 
-        // Function to handle editing a student
-        function editStudent(index) {
-            const students = JSON.parse(localStorage.getItem('students')) || [];
-            const student = students[index];
-
-            document.getElementById('student_id').value = student.studentId;
-            document.getElementById('first_name').value = student.firstName;
-            document.getElementById('last_name').value = student.lastName;
-
-            // Remove the student from the array (we will update them later)
-            students.splice(index, 1);
-            localStorage.setItem('students', JSON.stringify(students));
-        }
-
-        // Function to handle deleting a student
+        // Delete student
         function deleteStudent(index) {
             const students = JSON.parse(localStorage.getItem('students')) || [];
-            students.splice(index, 1);  // Remove the student from the array
-            localStorage.setItem('students', JSON.stringify(students));  // Update localStorage
-
-            // Re-display the updated student list
+            students.splice(index, 1);
+            localStorage.setItem('students', JSON.stringify(students));
             displayStudents();
         }
 
-        // Placeholder for attaching a subject (you can add functionality later)
-        function attachSubject(index) {
-            alert("Attach Subject function not implemented yet.");
+        // Clear form fields
+        function clearForm() {
+            document.getElementById('student_id').value = '';
+            document.getElementById('first_name').value = '';
+            document.getElementById('last_name').value = '';
         }
 
         // Initial display of students
