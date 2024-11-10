@@ -11,6 +11,8 @@
             margin: 0;
             padding: 0;
         }
+
+        /* Styling for the dashboard container */
         .dashboard-container {
             width: 100%;
             max-width: 900px;
@@ -120,11 +122,54 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
+        /* Custom alert message styling */
+        .alert-message {
+            padding: 15px;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 20px auto;
+            text-align: left;
+            position: relative;
+            top: 0;
+            max-width: 900px; /* Same width as the dashboard */
+            width: 100%; /* Ensure it doesn't exceed the dashboard width */
+        }
+
+        .alert-message ul {
+            font-weight: lighter; /* Make the text in the <ul><li> thinner */
+        }
+
+        .alert-message li {
+            font-weight: lighter; /* Make the text in each <li> thinner */
+        }
+
+        /* Close "X" in top-right corner */
+        .alert-message .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #721c24;
+            cursor: pointer;
+        }
+
+        .alert-message .close-btn:hover {
+            color: #f1a2a8;
+        }
+
     </style>
 </head>
 <body>
 
-    <div class="dashboard-container">
+    <!-- Alert Container for Error Messages -->
+    <div id="alert-container"></div>
+
+    <div class="dashboard-container" id="dashboard-container">
         <!-- Breadcrumb -->
         <div id="breadcrumb" class="breadcrumb">
             <a href="../dashboard.php">Dashboard</a> / Register Student
@@ -135,15 +180,15 @@
         <!-- Registration Form -->
         <form id="register-form">
             <label for="student_id">Student ID</label>
-            <input type="text" id="student_id" name="student_id" required>
+            <input type="text" id="student_id" name="student_id" oninput="validateNumberInput(event)" />
 
             <label for="first_name">First Name</label>
-            <input type="text" id="first_name" name="first_name" required>
+            <input type="text" id="first_name" name="first_name">
 
             <label for="last_name">Last Name</label>
-            <input type="text" id="last_name" name="last_name" required>
+            <input type="text" id="last_name" name="last_name">
 
-            <button type="submit" class="submit-btn">Register Student</button>
+            <button type="submit" class="submit-btn">Add Student</button>
         </form>
 
         <!-- List of Registered Students -->
@@ -185,9 +230,8 @@
             deleteBtn.textContent = 'Delete';
             deleteBtn.classList.add('delete-btn');
             deleteBtn.onclick = () => {
-                students.splice(index, 1);
-                localStorage.setItem('students', JSON.stringify(students));
-                window.location.reload();
+                // Redirect to delete.php page with the student index as a query parameter
+                window.location.href = `delete.php?delete=${index}`;
             };
             actionCell.appendChild(deleteBtn);
         });
@@ -196,12 +240,39 @@
         document.getElementById('register-form').addEventListener('submit', function(event) {
             event.preventDefault();
 
-            const newStudent = {
-                studentId: document.getElementById('student_id').value,
-                firstName: document.getElementById('first_name').value,
-                lastName: document.getElementById('last_name').value
-            };
+            // Get form input values
+            const studentId = document.getElementById('student_id').value;
+            const firstName = document.getElementById('first_name').value;
+            const lastName = document.getElementById('last_name').value;
 
+            // Array to hold errors
+            let errors = [];
+
+            // Validation checks
+            if (!studentId) errors.push("Student ID is required.");
+            if (!firstName) errors.push("First Name is required.");
+            if (!lastName) errors.push("Last Name is required.");
+
+            if (errors.length > 0) {
+                // Create error message HTML
+                let errorMessage = "<strong>System Errors</strong><ul>";
+                errors.forEach(function(error) {
+                    errorMessage += `<li>${error}</li>`;
+                });
+                errorMessage += "</ul>";
+
+                // Show the error message in the alert container
+                document.getElementById('alert-container').innerHTML = ` 
+                    <div class="alert-message">
+                        ${errorMessage}
+                        <span class="close-btn" onclick="closeAlert()">×</span>
+                    </div>
+                `;
+                return; // Don't submit the form if validation fails
+            }
+
+            // If no errors, proceed with adding the student
+            const newStudent = { studentId, firstName, lastName };
             students.push(newStudent);
             localStorage.setItem('students', JSON.stringify(students));
 
@@ -209,6 +280,18 @@
             document.getElementById('register-form').reset();
             window.location.reload();
         });
+
+        // Function to close the alert
+        function closeAlert() {
+            document.getElementById('alert-container').innerHTML = ''; // Clear the alert
+        }
+
+        // Function to validate that only numbers are entered in the student_id field
+        function validateNumberInput(event) {
+            const input = event.target;
+            // Remove any non-digit character
+            input.value = input.value.replace(/\D/g, '');
+        }
     </script>
 
 </body>
