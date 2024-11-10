@@ -10,31 +10,36 @@
             background-color: #f4f4f9;
             margin: 0;
             padding: 0;
-            position: relative;  /* Make the body relative to control absolute elements */
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         /* Custom alert message styling */
         .alert-message {
-            padding: 15px;
+            padding: 10px;
             background-color: #f8d7da;
             color: #721c24;
             border: 1px solid #f5c6cb;
             border-radius: 5px;
             font-weight: bold;
-            margin: 20px auto;
+            margin: 20px 0;
             text-align: left;
             width: 100%;
-            max-width: 870px; /* Constrain the width to match the breadcrumb */
-            position: relative; /* Ensures alert stays at the top */
-            z-index: 2; /* Ensure it appears above the breadcrumb */
+            max-width: 900px;  /* Same width as the dashboard */
+            position: relative;
+            z-index: 2;
+            margin-left: auto;
+            margin-right: auto;
         }
 
         .alert-message ul {
-            font-weight: lighter; /* Make the text in the <ul><li> thinner */
+            font-weight: lighter;
         }
 
         .alert-message li {
-            font-weight: lighter; /* Make the text in each <li> thinner */
+            font-weight: lighter;
         }
 
         /* Close "X" in top-right corner */
@@ -52,31 +57,37 @@
             color: #f1a2a8;
         }
 
-        /* Styling for the h1 title "Register a New Student" */
-        #page-title {
-            font-family: 'Arial', sans-serif;
-            font-weight: 100; /* Thin font weight */
-            font-size: 32px;  /* Larger font size */
-            text-align: left;
-            color: #333;
-            margin: 20px auto;
-            padding-left: 20px; /* Add some space from the left */
-            max-width: 1000px; /* Ensure it aligns with the breadcrumb */
+        /* Adjust the alert container to match dashboard container width */
+        #alert-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto;
         }
 
-        /* Styling for the breadcrumb with rectangle background on the left */
+        /* Styling for the "Register a New Student" title */
+        #page-title {
+            font-family: 'Arial', sans-serif;
+            font-weight: 100;
+            font-size: 32px;
+            text-align: left;
+            color: #333;
+            margin: 50px;  /* Adjusted margins for better spacing */
+            padding-left: 20px;  /* Align the title with the left side of the dashboard */
+            max-width: 900px;  /* Ensure it aligns with the dashboard */
+            width: 100%;
+        }
+
+        /* Styling for the breadcrumb */
         .breadcrumb {
             background-color: #e8e9eb;
             padding: 10px;
             border-radius: 4px;
             font-size: 14px;
             max-width: 1000px;
-            margin: 10px auto 15px;  /* Reduced top margin and bottom margin to bring closer */
-            width: 100%;  /* Ensures breadcrumb stretches across */
-            text-align: left;  /* Align breadcrumb to the left */
-            padding-left: 20px; /* Add space from the left side */
-            position: relative; /* Ensures breadcrumb positioning is in context */
-            z-index: 1; /* Below the alert message */
+            margin: 10px auto 15px;
+            width: 100%;
+            text-align: left;
+            padding-left: 20px;
         }
 
         .breadcrumb a {
@@ -92,7 +103,7 @@
         .dashboard-container {
             width: 100%;
             max-width: 900px;
-            margin: 0 auto;  /* Reduced margin to pull the container up */
+            margin: 0 auto;
             padding: 30px;
             background-color: white;
             border-radius: 8px;
@@ -126,15 +137,17 @@
             width: 100%;
         }
 
+        /* Shortened "Add Student" button styling */
         .submit-btn {
-            padding: 12px;
+            padding: 10px;
             font-size: 16px;
             color: white;
             background-color: #007bff;
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            width: 100%;
+            width: auto;  /* Shortened width */
+            margin-left: 0;  /* Align the button to the left */
         }
 
         .submit-btn:hover {
@@ -161,60 +174,90 @@
 
         .action-buttons {
             display: flex;
-            gap: 10px;
+            gap: 10px;  /* Adds space between the buttons */
         }
 
         .edit-btn {
-            background-color: #f0ad4e;
+            background-color: #007bff; /* Blue color */
             color: white;
             padding: 5px 10px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            margin-right: 10px; /* Add space to the right of the edit button */
+        }
+
+        .edit-btn:hover {
+            background-color: #0056b3; /* Darker blue for hover effect */
         }
 
         .delete-btn {
-            background-color: #d9534f;
+            background-color: #dc3545; /* Red color */
             color: white;
             padding: 5px 10px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
+
+        .delete-btn:hover {
+            background-color: #c82333; /* Darker red for hover effect */
+        }
+
+        /* Styling for the student list container */
+        .student-list-container {
+            width: 100%;
+            max-width: 900px;
+            margin: 20px auto;
+            padding: 30px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Align button below the last name input field */
+        .form-btn-container {
+            display: flex;
+            justify-content: flex-start;
+            margin-top: 10px;
+        }
+
     </style>
 </head>
 <body>
-
-    <!-- Alert Container for Error Messages, placed above the breadcrumb -->
+    <!-- Alert Container for Error Messages -->
     <div id="alert-container"></div>
 
-    <!-- "Register a New Student" Title (h1) placed above breadcrumb -->
+    <!-- Page Title -->
     <h2 id="page-title">Register a New Student</h2>
 
-    <!-- Breadcrumb placed outside dashboard, left-aligned within the rectangle -->
+    <!-- Breadcrumb -->
     <div class="breadcrumb">
         <a href="../dashboard.php">Dashboard</a> / Register Student
     </div>
 
+    <!-- Dashboard Form -->
     <div class="dashboard-container" id="dashboard-container">
-        
-
-        <!-- Registration Form -->
         <form id="register-form">
             <label for="student_id">Student ID</label>
-            <input type="text" id="student_id" name="student_id" oninput="validateNumberInput(event)" />
+            <input type="text" id="student_id" name="student_id" oninput="validateNumberInput(event)" placeholder="Enter Student ID" />
 
             <label for="first_name">First Name</label>
-            <input type="text" id="first_name" name="first_name">
+            <input type="text" id="first_name" name="first_name" placeholder="Enter First Name">
 
             <label for="last_name">Last Name</label>
-            <input type="text" id="last_name" name="last_name">
+            <input type="text" id="last_name" name="last_name" placeholder="Enter Last Name">
 
-            <button type="submit" class="submit-btn">Add Student</button>
+            <!-- Button container aligned to the left -->
+            <div class="form-btn-container">
+                <button type="submit" class="submit-btn">Add Student</button>
+            </div>
         </form>
+    </div>
 
-        <!-- List of Registered Students -->
-        <h3>Registered Students</h3>
+    <!-- Student List Section -->
+    <div class="student-list-container">
+        <h2>Student List</h2>
         <table id="students-table">
             <thead>
                 <tr>
@@ -275,6 +318,12 @@
             if (!firstName) errors.push("First Name is required.");
             if (!lastName) errors.push("Last Name is required.");
 
+            // Check for duplicate Student ID
+            const existingStudent = students.find(student => student.studentId === studentId);
+            if (existingStudent) {
+                errors.push("A student with this ID already exists.");
+            }
+
             if (errors.length > 0) {
                 // Create error message HTML
                 let errorMessage = "<strong>System Errors</strong><ul>";
@@ -318,4 +367,3 @@
 
 </body>
 </html>
-

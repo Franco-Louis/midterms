@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +23,6 @@
             padding-left: 20px; /* Add some space from the left */
             max-width: 1000px; /* Ensure it aligns with the breadcrumb */
         }
-
 
         /* Centered Breadcrumb with the same background color and position as delete.php */
         .breadcrumb {
@@ -103,12 +101,57 @@
         .submit-btn:hover {
             background-color: #0056b3;
         }
+
+        /* Custom alert message styling */
+        .alert-message {
+            padding: 10px;
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+            border-radius: 5px;
+            font-weight: bold;
+            margin: 20px 0;
+            text-align: left;
+            width: 100%;
+            max-width: 900px;
+            position: relative;
+            z-index: 2;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .alert-message ul {
+            font-weight: lighter;
+        }
+
+        .alert-message li {
+            font-weight: lighter;
+        }
+
+        /* Close "X" in top-right corner */
+        .alert-message .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #721c24;
+            cursor: pointer;
+        }
+
+        .alert-message .close-btn:hover {
+            color: #f1a2a8;
+        }
+
     </style>
 </head>
 <body>
 
-    <!-- "Register a New Student" Title (h1) placed above breadcrumb -->
+    <!-- "Edit Student" Title (h1) placed above breadcrumb -->
     <h2 id="page-title">Edit Student</h2>
+
+    <!-- Alert Container for Error Messages -->
+    <div id="alert-container"></div>
 
     <!-- Breadcrumb placed above the form, centered and slightly wider -->
     <div id="breadcrumb" class="breadcrumb">
@@ -156,14 +199,37 @@
                 lastName: document.getElementById('last_name').value
             };
 
+            // Check if the updated student ID already exists (except for the current student)
+            const duplicateStudent = students.find((student, index) => student.studentId === updatedStudent.studentId && index !== parseInt(studentIndex));
+
+            if (duplicateStudent) {
+                // Show an error message as an alert like in register.php
+                const alertContainer = document.getElementById('alert-container');
+                alertContainer.innerHTML = `
+                    <div class="alert-message">
+                        <strong>System Errors</strong>
+                        <ul>
+                            <li>A student with this ID already exists.</li>
+                        </ul>
+                        <span class="close-btn" onclick="closeAlert()">×</span>
+                    </div>
+                `;
+                return; // Don't proceed with the update
+            }
+
+            // If no duplicate, update the student
             students[studentIndex] = updatedStudent;
             localStorage.setItem('students', JSON.stringify(students));
 
             // Redirect back to register.php after updating
             window.location.href = 'register.php';
         });
+
+        // Function to close the alert
+        function closeAlert() {
+            document.getElementById('alert-container').innerHTML = ''; // Clear the alert
+        }
     </script>
 
 </body>
 </html>
-

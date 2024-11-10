@@ -9,6 +9,21 @@ if (!isset($_SESSION['user_email'])) {
 }
 
 $user_email = $_SESSION['user_email'];  // Get the logged-in user's email
+
+// Logout functionality
+if (isset($_POST['logout'])) {
+    session_unset();  // Unset all session variables
+    session_destroy();  // Destroy the session
+
+    // Prevent the browser from caching the page (important for preventing Back button)
+    header("Cache-Control: no-cache, no-store, must-revalidate");
+    header("Pragma: no-cache");
+    header("Expires: 0");
+
+    // Redirect to the index page after logout
+    header("Location: index.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +53,8 @@ $user_email = $_SESSION['user_email'];  // Get the logged-in user's email
         /* Flex container for heading and cards */
         .header-container {
             display: flex;
-            justify-content: flex-start; /* Align the heading to the left */
+            justify-content: space-between; /* Space out content */
+            align-items: center;
             margin-bottom: 20px; /* Add some space between the heading and the cards */
         }
 
@@ -102,6 +118,21 @@ $user_email = $_SESSION['user_email'];  // Get the logged-in user's email
         .card button:hover {
             background-color: #0056b3; /* Darker blue on hover */
         }
+
+        /* Logout Button Styling */
+        .logout-btn {
+            padding: 10px 20px;
+            background-color: #d9534f; /* Red color */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .logout-btn:hover {
+            background-color: #c9302c; /* Darker red on hover */
+        }
     </style>
 </head>
 <body>
@@ -110,6 +141,11 @@ $user_email = $_SESSION['user_email'];  // Get the logged-in user's email
         <!-- Header Container -->
         <div class="header-container">
             <h3>Welcome to the System, <?php echo htmlspecialchars($user_email); ?></h3>
+
+            <!-- Logout Button -->
+            <form method="POST" action="">
+                <button type="submit" name="logout" class="logout-btn">Logout</button>
+            </form>
         </div>
 
         <!-- Cards for Subject and Student Registration -->
