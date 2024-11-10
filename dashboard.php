@@ -132,8 +132,8 @@ $user_email = $_SESSION['user_email'];  // Get the logged-in user's email
                     <h4>Register a Student</h4>
                     <p>This section allows you to register a new student in the system. Click the button below to proceed with the registration process.</p>
                 </div>
-                <!-- Change action to register.php -->
-                <form action="register.php" method="GET">
+                <!-- Change action to point to 'student/register.php' -->
+                <form action="student/register.php" method="GET">
                     <button type="submit">Register</button>
                 </form>
             </div>
