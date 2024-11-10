@@ -84,7 +84,9 @@
 <body>
 
     <div class="dashboard-container">
+        <!-- Breadcrumb -->
         <div id="breadcrumb" class="breadcrumb">
+            <a href="../dashboard.php">Dashboard</a> / 
             <a href="register.php">Register Student</a> / Edit Student
         </div>
 

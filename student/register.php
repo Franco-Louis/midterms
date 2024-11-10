@@ -127,28 +127,28 @@
     <div class="dashboard-container">
         <!-- Breadcrumb -->
         <div id="breadcrumb" class="breadcrumb">
-            <a href="#">Register Student</a>
+            <a href="../dashboard.php">Dashboard</a> / Register Student
         </div>
 
         <h3 id="form-title">Register a New Student</h3>
 
         <!-- Registration Form -->
-        <form id="registration-form">
+        <form id="register-form">
             <label for="student_id">Student ID</label>
-            <input type="text" id="student_id" name="student_id" placeholder="Enter Student ID" required>
+            <input type="text" id="student_id" name="student_id" required>
 
             <label for="first_name">First Name</label>
-            <input type="text" id="first_name" name="first_name" placeholder="Enter First Name" required>
+            <input type="text" id="first_name" name="first_name" required>
 
             <label for="last_name">Last Name</label>
-            <input type="text" id="last_name" name="last_name" placeholder="Enter Last Name" required>
+            <input type="text" id="last_name" name="last_name" required>
 
-            <button type="submit" class="submit-btn">Add Student</button>
+            <button type="submit" class="submit-btn">Register Student</button>
         </form>
 
-        <!-- Student List Table -->
-        <h3>Student List</h3>
-        <table id="student-table">
+        <!-- List of Registered Students -->
+        <h3>Registered Students</h3>
+        <table id="students-table">
             <thead>
                 <tr>
                     <th>Student ID</th>
@@ -158,68 +158,57 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Dynamic content will be inserted here -->
+                <!-- Students will be dynamically added here -->
             </tbody>
         </table>
     </div>
 
     <script>
-        // Handle form submission
-        document.getElementById('registration-form').addEventListener('submit', function(event) {
-            event.preventDefault();
+        const students = JSON.parse(localStorage.getItem('students')) || [];
 
-            const studentId = document.getElementById('student_id').value;
-            const firstName = document.getElementById('first_name').value;
-            const lastName = document.getElementById('last_name').value;
+        // Display registered students in the table
+        const studentsTable = document.getElementById('students-table').getElementsByTagName('tbody')[0];
+        students.forEach((student, index) => {
+            const row = studentsTable.insertRow();
+            row.insertCell(0).textContent = student.studentId;
+            row.insertCell(1).textContent = student.firstName;
+            row.insertCell(2).textContent = student.lastName;
 
-            const student = { studentId, firstName, lastName };
-            let students = JSON.parse(localStorage.getItem('students')) || [];
+            const actionCell = row.insertCell(3);
+            const editBtn = document.createElement('button');
+            editBtn.textContent = 'Edit';
+            editBtn.classList.add('edit-btn');
+            editBtn.onclick = () => window.location.href = `edit.php?edit=${index}`;
+            actionCell.appendChild(editBtn);
 
-            students.push(student);
-            localStorage.setItem('students', JSON.stringify(students));
-            clearForm();
-            displayStudents();
+            const deleteBtn = document.createElement('button');
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.classList.add('delete-btn');
+            deleteBtn.onclick = () => {
+                students.splice(index, 1);
+                localStorage.setItem('students', JSON.stringify(students));
+                window.location.reload();
+            };
+            actionCell.appendChild(deleteBtn);
         });
 
-        // Display students
-        function displayStudents() {
-            const students = JSON.parse(localStorage.getItem('students')) || [];
-            const studentTableBody = document.querySelector('#student-table tbody');
-            studentTableBody.innerHTML = '';
+        // Handle form submission for adding a new student
+        document.getElementById('register-form').addEventListener('submit', function(event) {
+            event.preventDefault();
 
-            students.forEach((student, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${student.studentId}</td>
-                    <td>${student.firstName}</td>
-                    <td>${student.lastName}</td>
-                    <td class="action-buttons">
-                        <!-- Redirect to edit.php with student index -->
-                        <a href="edit.php?edit=${index}" class="edit-btn">Edit</a>
-                        <button class="delete-btn" onclick="deleteStudent(${index})">Delete</button>
-                    </td>
-                `;
-                studentTableBody.appendChild(row);
-            });
-        }
+            const newStudent = {
+                studentId: document.getElementById('student_id').value,
+                firstName: document.getElementById('first_name').value,
+                lastName: document.getElementById('last_name').value
+            };
 
-        // Delete student
-        function deleteStudent(index) {
-            const students = JSON.parse(localStorage.getItem('students')) || [];
-            students.splice(index, 1);
+            students.push(newStudent);
             localStorage.setItem('students', JSON.stringify(students));
-            displayStudents();
-        }
 
-        // Clear form fields
-        function clearForm() {
-            document.getElementById('student_id').value = '';
-            document.getElementById('first_name').value = '';
-            document.getElementById('last_name').value = '';
-        }
-
-        // Initial display of students
-        displayStudents();
+            // Clear the form and refresh the page
+            document.getElementById('register-form').reset();
+            window.location.reload();
+        });
     </script>
 
 </body>
