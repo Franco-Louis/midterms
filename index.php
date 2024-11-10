@@ -1,7 +1,6 @@
 <?php
 session_start();  // Start the session to manage user data
 
-
 // Define the correct credentials (in real scenarios, use hashed passwords)
 $valid_email = "user1@gmail.com";
 $valid_password = "pass";
@@ -15,11 +14,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Check if both fields are filled
     if (empty($email) || empty($password)) {
-        $error_message = "Both fields are required.";
+        $error_message = "<strong>System Errors:</strong><ul><li>Email is Required</li><li>Password is Required</li></ul>";
     } elseif ($email !== $valid_email) {
-        $error_message = "Invalid email address.";
+        $error_message = "<strong>System Errors:</strong><ul><li>Email is Invalid</li><li>Password is Required</li></ul>";
     } elseif ($password !== $valid_password) {
-        $error_message = "Invalid password.";
+        $error_message = "<strong>System Errors:</strong><ul><li>Email is Required</li><li>Password is Required</li></ul>";
     } else {
         // If credentials are correct, store email in session and redirect to dashboard
         $_SESSION['user_email'] = $email;
@@ -106,6 +105,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         .alert-message .close-btn:hover {
             color: #f1a2a8;
         }
+
+        /* New CSS for thinner text inside error list */
+        .alert-message ul {
+            font-weight: 200; /* Lighter font weight for the list */
+            list-style-position: inside;
+            padding-left: 0;
+            margin-top: 10px;
+        }
+
+        .alert-message li {
+            font-weight: 200; /* Apply the lighter font weight to each list item */
+            margin-bottom: 5px; /* Optional: Add space between list items */
+        }
+
+        /* Styling for the System Errors heading */
+        .alert-message strong {
+            font-size: 16px;
+            font-weight: bold;
+            color: #721c24;
+            display: block;
+            margin-bottom: 10px;
+        }
     </style>
 </head>
 <body>
@@ -125,13 +146,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <!-- Email Input -->
             <div class="form-group">
                 <label for="email">Email Address</label>
-                <input type="email" name="email" id="email" placeholder="Enter Email" required>
+                <input type="email" name="email" id="email" placeholder="Enter Email">
             </div>
 
             <!-- Password Input -->
             <div class="form-group">
                 <label for="password">Password</label>
-                <input type="password" name="password" id="password" placeholder="Enter Password" required>
+                <input type="password" name="password" id="password" placeholder="Enter Password">
             </div>
 
             <!-- Submit Button -->
