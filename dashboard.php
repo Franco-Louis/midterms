@@ -4,7 +4,7 @@ session_start();  // Start the session to access session data
 // Check if user is logged in (session variable is set)
 if (!isset($_SESSION['user_email'])) {
     // If not logged in, redirect to login page
-    header("Location: index.php");
+    header("location: index.php");
     exit();  // Make sure no further code is executed
 }
 
@@ -162,5 +162,4 @@ if (isset($_POST['logout'])) {
         </div>
     </div>
 
-</body>
-</html>
+<?php include 'footer.php';?>
