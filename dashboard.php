@@ -11,19 +11,11 @@ if (!isset($_SESSION['user_email'])) {
 $user_email = $_SESSION['user_email'];  // Get the logged-in user's email
 
 // Logout functionality
-if (isset($_POST['logout'])) {
-    session_unset();  // Unset all session variables
-    session_destroy();  // Destroy the session
-
-    // Prevent the browser from caching the page (important for preventing Back button)
-    header("Cache-Control: no-cache, no-store, must-revalidate");
-    header("Pragma: no-cache");
-    header("Expires: 0");
-
-    // Redirect to the index page after logout
-    header("Location: index.php");
-    exit();
-}
+    if (isset($_POST['logout'])) {
+        // Redirect to the index page after logout
+        header("location: logout.php");
+        exit();
+    }
 ?>
 
 <?php 
@@ -112,27 +104,6 @@ if (isset($_POST['logout'])) {
             background-color: #c9302c;
         }
     </style>
-
-    <script>
-        // Handle back button press (logout and disable navigation)
-        window.history.pushState(null, null, window.location.href);
-        window.onpopstate = function() {
-            window.history.pushState(null, null, window.location.href);
-            alert('You have been logged out.');
-            // Redirect to login page after logout
-            window.location.href = "index.php";
-        }
-
-        // Prevent forward navigation after logout
-        window.onbeforeunload = function() {
-            sessionStorage.setItem('logoutRedirect', 'true');
-        };
-
-        if (sessionStorage.getItem('logoutRedirect') === 'true') {
-            window.location.href = "index.php"; // Redirect to login page
-        }
-    </script>
-
 </head>
 <body>
 

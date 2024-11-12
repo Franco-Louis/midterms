@@ -1,6 +1,6 @@
 <?php 
     $_SESSION['title'] = 'Edit Student';
-    include 'header.php'; 
+    include '../header.php'; 
 ?>
     <style>
         body {
@@ -229,4 +229,4 @@
         }
     </script>
 
-<?php include 'footer.php'; ?>
+<?php include '../footer.php'; ?>

@@ -1,4 +1,6 @@
 <?php
+session_start();
+session_destroy();
 session_start();  // Start the session to manage user data
 
 // Define the correct credentials (in real scenarios, use hashed passwords)
@@ -15,15 +17,20 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Check if both fields are filled
     if (empty($email) || empty($password)) {
         $error_message = "<strong>System Errors:</strong><ul><li>Email is Required</li><li>Password is Required</li></ul>";
-    } elseif ($email !== $valid_email) {
+    } 
+    
+    if ($email !== $valid_email) {
         $error_message = "<strong>System Errors:</strong><ul><li>Email is Invalid</li><li>Password is Required</li></ul>";
-    } elseif ($password !== $valid_password) {
+    } 
+    
+    if ($password !== $valid_password) {
         $error_message = "<strong>System Errors:</strong><ul><li>Email is Required</li><li>Password is Required</li></ul>";
-    } else {
+    }
+
+    if ($email == $valid_email && $password == $valid_password) {
         // If credentials are correct, store email in session and redirect to dashboard
         $_SESSION['user_email'] = $email;
-        header('Location: dashboard.php');
-        exit();  // Stop the script execution after redirect
+        header('location: dashboard.php');
     }
 }
 ?>

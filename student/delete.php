@@ -1,6 +1,6 @@
 <?php 
     $_SESSION['title'] = 'Delete Student';
-    include 'header.php'; 
+    include '../header.php'; 
 ?>
     <style>
         body {
@@ -173,4 +173,4 @@
         }
     </script>
 
-<? include 'footer.php';?>
+<? include '../footer.php';?>
