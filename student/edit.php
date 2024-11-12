@@ -162,7 +162,7 @@
 
         <form id="edit-form">
             <label for="student_id">Student ID</label>
-            <input type="text" id="student_id" name="student_id" required>
+            <input type="text" id="student_id" name="student_id" required readonly>
 
             <label for="first_name">First Name</label>
             <input type="text" id="first_name" name="first_name" required>
